@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="Category.js"></script>
+</head>
+<body>
+<h1 style="color: blue; text-align: center">MUZIC ONLIE</h1>
+<input id="newCategory" type="text">
+<button onclick="createCategory()">Create Category</button>
+<input id="search" placeholder="Search Category ....." type="text" oninput="actionSearch()">
+<span id="validate"></span>
+
+<table border="1" style="width: 100%; text-align: center">
+    <th>STT</th>
+    <th>NAME</th>
+    <th>EDIT</th>
+    <th>DELETE</th>
+    <tbody id="drawTable">
+    </tbody>
+
+</table>
+<br>
+<h4>Nam Song</h4>
+<input type="text">
+<form>
+    <p>lyrics</p>
+    <textarea cols="50" rows="20"></textarea><br>
+    <button>Create Song</button>
+    <select id="selectsong"></select>
+
+<script>
+    let listCategory = [];
+    let category1 = new Category(1,'Nhạc Vàng')
+    let category2 = new Category(2,'Nhạc Đỏ')
+    let category3 = new Category(3,'Nhạc Trẻ')
+    let category4 = new Category(4,'NHạc Thiếu Nhi')
+
+
+    listCategory.push(category1,category2,category3,category4);
+    console.log("listCategory==",listCategory)
+
+
+    function showListCategory() {
+
+        let drawTable = '';
+        let class_tr = '';
+
+        for (let i = 0; i < listCategory.length; i++) {
+            drawTable += `<tr class="${class_tr}">
+                      <td>${listCategory[i].id}</td>
+                      <td>${listCategory[i].name}</td>
+                      <td><button onclick="updateCategory(${listCategory[i].id})" style="background-color: blue">EDIT</button></td>
+                      <td><button onclick="deleteCategory(${listCategory[i].id})" style="background-color: red">DELETE</button></td>
+
+</tr>`
+        }
+        document.getElementById('drawTable').innerHTML = drawTable;
+    }
+    showListCategory();
+
+    function createCategory() {
+        let newCategory = document.getElementById('newCategory').value
+        let check = false
+        //trim()=== "" là cách xác định khoảng trống
+        if (newCategory.trim() === '') {
+            console.log("newCategory==", newCategory)
+
+            document.getElementById('validate').innerHTML = '<span style="background-color:aquamarine">The name is required! Please try again!</span>'
+        } else {
+            for (let i = 0; i < listCategory.length; i++) {
+                // toLowerCase là check chữ in hoa hay in thường
+                if (listCategory[i].name.toLowerCase() === newCategory.toLowerCase()) {
+                    check = true
+                    document.getElementById('validate').innerHTML = '<span style="background-color:aquamarine">trung tên nhạc</span>'
+                }
+            }
+            // listCategory.push(new Category(listCategory.length +1,newCategory));
+            // document.getElementById('validate').innerHTML = '<span style="color: #c88f00">The name is required! Please try again!</span>'
+            if (!check) {
+                // cách lấy phần tử cuối để so sánh trùng lặp (listCategory) là tên của mảng.      [listCategory.lenght -1].id+1 là phần tử cuối của mảng
+                listCategory.push(new Category(listCategory[listCategory.length - 1].id + 1, newCategory))
+                document.getElementById('validate').innerHTML = '<span style="background-color:aquamarine">create success</span>'
+            //    (create success là đăng nhập thành công) document.getElementById('validate').innerHTML = '<span style="background-color:aquamarine">create success</span>'hiển thị
+            }
+            showListCategory();
+        }
+    }
+    function updateCategory(id) {
+        console.log("updateCategory", id)
+        for (let i = 0; i < listCategory.length; i++) {
+
+            if (listCategory[i].id == id) {
+                let editCategory = prompt('editCategory: ', listCategory[i].name)
+
+            }
+                }
+                showListCategory();
+            }
+
+        function deleteCategory(id) {
+            for (let i = 0; i < listCategory.length; i++) {
+                if (listCategory[i].id == id) {
+                    listCategory.splice(listCategory[i], 1)
+                }
+            }
+            showListCategory();
+    }
+
+
+//     <select>
+//         function showListCategory() {
+//
+//         let drawTable = '';
+//     let class_tr = '';
+//
+//     for (let i = 0; i < listCategory.length; i++) {
+//         drawTable += `<tr class="${class_tr}">
+//                       <op${listCategory[i].id}</td>
+//                       <td>${listCategory[i].name}</td>
+//                       <td><button onclick="updateCategory(${listCategory[i].id})" style="background-color: blue">EDIT</button></td>
+//                       <td><button onclick="deleteCategory(${listCategory[i].id})" style="background-color: red">DELETE</button></td>
+//
+// </select>
+</script>
+
+<!--    <select name="">-->
+<!--        <option value="NV">NHẠC VÀNG</option>-->
+<!--        <option value="NĐ">NHẠC ĐỎ</option>-->
+<!--        <option value="NT">NHẠC TRẺ</option>-->
+<!--        <option value="TN">NHẠC THIẾU NHI</option>-->
+<!--    </select>-->
+</form>
+</body>
+</html>
